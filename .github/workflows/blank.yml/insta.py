@@ -1,0 +1,20 @@
+import requests
+from time import sleep
+text = input('Введите название группы или логин человека:')
+print('Здравствуй '+text)
+response = requests.get('https://www.instagram.com/'+text+'?__a=1')
+a = response.json()
+print('Ваше имя '+a['graphql']['user']['full_name'])
+print('Ваша биография '+a['graphql']['user']['full_name'])
+print('Количество подисчиков '+str(a['graphql']['user']['edge_followed_by']['count']))
+print('Количество подписок '+str(a['graphql']['user']['edge_follow']['count']))
+print('Количество публикации '+str(a['graphql']['user']['edge_owner_to_timeline_media']['count']))
+posts = a['graphql']['user']['edge_owner_to_timeline_media']['edges']
+posts_text = ''
+for i in posts:
+	url = i['node']['shortcode']
+	like = i['node']['edge_liked_by']['count']
+	print(str(url)+' Количество лайков '+str(like))
+	for j in text:
+		sleep(2)
+
